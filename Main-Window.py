@@ -121,6 +121,9 @@ class pieceClass():
 class boardClass():
 
 	def __init__(self, size):
+		self.newBoard(size)
+
+	def newBoard(self, size):
 
 		self.size = size
 
@@ -153,10 +156,11 @@ playerInputs = {
 }
 
 FPS = 60
+running = True
+TAS = False
 currentFrame = 0
 lastFrameDown = 0
-TAS = False
-running = True
+gameState = 0
 
 while running:
 
