@@ -147,12 +147,15 @@ playerInputs = {
 	"down": pygame.K_DOWN,
 	"rotLeft": pygame.K_q,
 	"rotRight": pygame.K_e,
-	"enter": pygame.K_SPACE,
+	"hold": pygame.K_SPACE,
+	"enter": pygame.K_ENTER,
+	"escape": pygame.K_ESCAPE,
 }
 
 FPS = 60
 currentFrame = 0
 lastFrameDown = 0
+TAS = False
 running = True
 
 while running:
@@ -172,6 +175,12 @@ while running:
 
 			running = False
 			exit()
+		
+
+		if event.type == pygame.KEYDOWN:
+			
+			if event.key == pygame.K_ESCAPE:
+				print("ya")
 
 
 
