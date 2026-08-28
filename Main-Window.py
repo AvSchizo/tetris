@@ -151,8 +151,13 @@ playerInputs = {
 	"rotLeft": pygame.K_q,
 	"rotRight": pygame.K_e,
 	"hold": pygame.K_SPACE,
-	"enter": pygame.K_ENTER,
+	"enter": pygame.K_RETURN,
 	"escape": pygame.K_ESCAPE,
+	"mouse_x": pygame.mouse.get_pos()[0],
+	"mouse_y": pygame.mouse.get_pos()[1],
+	"mouseButton_L": pygame.mouse.get_pressed()[0],
+	"mouseButton_M": pygame.mouse.get_pressed()[1],
+	"mouseButton_R": pygame.mouse.get_pressed()[2],
 }
 
 FPS = 60
