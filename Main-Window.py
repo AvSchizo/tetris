@@ -2,34 +2,50 @@ import pygame
 from sys import exit
 from copy import deepcopy
 from math import floor
+import random
 
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
-running = True
 
 
+class queClass():
+	def __init__(self):
+		self.newQue()
+	
 
-def newQue():
+	def newQue(self):
 
-	returnList = [
-		"long",
-		"square",
-		"tee",
-		"zeeL",
-		"zeeR",
-		"L",
-		"J"
-	]
+		returnList = [
+			"long",
+			"square",
+			"tee",
+			"zeeL",
+			"zeeR",
+			"L",
+			"J"
+		]
+		self.que = returnList
+	
+
+	def shuffle(self):
+		self.que = random.shuffle(self.que)
+
+que = queClass()
 
 
 
 class pieceClass():
 
-	def __init__(self):
+	def __init__(self, typeInput=None):
 
-		self.blocks = []
-		self.setup_pieceData(board.size)
+		self.pieceData = self.setup_pieceData(boardSize)
+
+		if typeInput == None:
+			self.type = self.takeFromQue()
+		else:
+			self.type = typeInput
+		self.blocks = self.setup_pieceData(board.size)[type]
 
 
 	def setup_pieceData(self, size):
@@ -38,41 +54,67 @@ class pieceClass():
 
 		width = size[0]
 		height = size[1] -1
+		mid = floor(width/2)
 
 		pieceData["long"] = [
-			[height, floor(width/2)-2],
-			[height, floor(width/2)-1],
-			[height, floor(width/2)],
-			[height, floor(width/2)+1]
+			[height, mid-2],
+			[height, mid-1],
+			[height, mid],
+			[height, mid+1]
 		]
 
 		pieceData["square"] = [
-			[height, floor(width/2)-1],
-			[height, floor(width/2)],
-			[height-1, floor(width/2)-1],
-			[height-1, floor(width/2)]
+			[height, mid],
+			[height-1, mid],
+			[height, mid+1],
+			[height-1, mid+1]
 		]
 
 		pieceData["tee"] = [
-			[height, floor(width/2)-1],
-			[height, floor(width/2)],
-			[height-1, floor(width/2)],
-			[height, floor(width/2)+1]
+			[height, mid-1],
+			[height, mid],
+			[height-1, mid],
+			[height, mid+1]
 		]
 
 		pieceData["zeeL"] = [
-			[height, floor(width/2)-1],
-			[height-1, floor(width/2)-1],
-			[height-1, floor(width/2)],
-			[height-1, floor(width/2)+1]
+			[height, mid-1],
+			[height, mid],
+			[height-1, mid],
+			[height-1, mid+1]
 		]
 
 		pieceData["zeeR"] = [
-			[height, floor(width/2)-1],
-			[height, floor(width/2)],
-			[height-1, floor(width/2)],
-			[height, floor(width/2)+1]
+			[height-1, mid-1],
+			[height-1, mid],
+			[height, mid],
+			[height, mid+1]
 		]
+
+		pieceData["L"] = [
+			[height-1, mid-1],
+			[height, mid-1],
+			[height, mid],
+			[height, mid+1]
+		]
+
+		pieceData["J"] = [
+			[height, mid-1],
+			[height, mid],
+			[height, mid+1],
+			[height-1, mid+1]
+		]
+
+		return pieceData
+	
+
+	def takeFromQue(self):
+		if len(que.que) == 0:
+			que.newQue()
+		type = que.que.pop(0)
+		if len(que.que) == 0:
+			que.newQue()
+		return type
 
 
 
@@ -94,16 +136,32 @@ class boardClass():
 
 
 
+boardSize = [10, 20]
+board = boardClass(boardSize)
+
+totalInputList = []
+playerInputs = {
+	"up": pygame.K_UP,
+	"left": pygame.K_LEFT,
+	"right": pygame.K_RIGHT,
+	"down": pygame.K_DOWN,
+	"rotLeft": pygame.K_q,
+	"rotRight": pygame.K_e,
+	"enter": pygame.K_SPACE,
+}
+
 FPS = 60
 currentFrame = 0
 lastFrameDown = 0
-
-board = boardClass([10, 20])
-
+running = True
 
 while running:
 
 	currentFrame += 1
+
+	inputValues = []
+	for i in range(7):
+		inputValues.append(0)
 
 
 
