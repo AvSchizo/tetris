@@ -8,6 +8,8 @@ pygame.init()
 screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
 
+default_font = pygame.font.Font(None, 36)
+
 
 
 def findIndex(toFind, list):
@@ -178,12 +180,18 @@ playerInputs = {
 
 FPS = 60
 running = True
-TASon = False
+TAS = False
 currentFrame = 0
 lastFrameDown = 0
-gameState = 0
+# ones place: section of main game state
+# 10: main menu
+# 20: gameplay
+gameState = 10
+# for deeper sub-menus and such
+subState = 0
 
 while running:
+	# frame setup
 	frameEvents = pygame.event.get()
 	for event in frameEvents:
 		if event.type == pygame.QUIT:
@@ -193,8 +201,8 @@ while running:
 	currentFrame += 1
 
 
-
-	if TASon and currentFrame <= len(totalInputList):
+	# inputValues setup
+	if TAS and currentFrame <= len(totalInputList):
 		pass
 
 	# turn player inputs into input values
@@ -215,6 +223,9 @@ while running:
 	# inputValues index
 	ivi = currentFrame - 1
 	inputValues = totalInputList[ivi]
+
+
+
 
 
 
