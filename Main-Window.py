@@ -9,6 +9,26 @@ screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
 
 
+
+def findIndex(toFind, list):
+	for i in range(len(list)):
+		if list[i] == toFind:
+			return i
+	print("fuckall, didn't find shit in this list")
+
+
+# toFind is value, function returns index of key in list of keys
+def findIndex_dict(toFind, dict):
+	keys = list(dict.keys())
+	for i in range(len(keys)):
+		
+		if dict[keys[i]] == toFind:
+			return i
+	
+	print("findIndex_dict returns nothing")
+
+
+
 class queClass():
 	def __init__(self):
 		self.newQue()
@@ -143,6 +163,7 @@ boardSize = [10, 20]
 board = boardClass(boardSize)
 
 totalInputList = []
+
 playerInputs = {
 	"up": pygame.K_UP,
 	"left": pygame.K_LEFT,
@@ -157,34 +178,44 @@ playerInputs = {
 
 FPS = 60
 running = True
-TAS = False
+TASon = False
 currentFrame = 0
 lastFrameDown = 0
 gameState = 0
 
 while running:
+	frameEvents = pygame.event.get()
+	if pygame.QUIT in frameEvents:
+		exit()
 
 	currentFrame += 1
 
-	inputValues = []
-	for i in range(7):
-		inputValues.append(0)
 
 
+	if TASon and currentFrame <= len(totalInputList):
+		pass
 
-	for event in pygame.event.get():
+	# turn player inputs into input values
+	else:
 
-
-		if event.type == pygame.QUIT:
-
-			running = False
-			exit()
+		tempList1 = [0]*len(list(playerInputs.keys()))
+		for event in frameEvents:
+			if event.type == pygame.KEYDOWN:
+				
+				if event.key in list(playerInputs.values()):
+					# tempList1[index of event.key's player input dict key] = 1
+					tempList1[findIndex_dict(event.key, playerInputs)] = 1
+				else:
+					print("event key not in inputs")
 		
+		totalInputList.append(tempList1)
+		
+	# inputValues index
+	ivi = currentFrame - 1
+	inputValues = totalInputList[ivi]
 
-		if event.type == pygame.KEYDOWN:
-			
-			if event.key == pygame.K_ESCAPE:
-				print("ya")
+
+
 
 
 
