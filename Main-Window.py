@@ -12,11 +12,12 @@ default_font = pygame.font.Font(None, 36)
 
 
 
+
 def findIndex(toFind, list):
 	for i in range(len(list)):
 		if list[i] == toFind:
 			return i
-	print("fuckall, didn't find shit in this list")
+	print("debug (findIndex): fuckall, didn't find shit in this list")
 
 
 # toFind is value, function returns index of key in list of keys
@@ -27,7 +28,8 @@ def findIndex_dict(toFind, dict):
 		if dict[keys[i]] == toFind:
 			return i
 	
-	print("findIndex_dict returns nothing")
+	print("debug (findIndex_dict): findIndex_dict returns nothing")
+
 
 
 
@@ -145,6 +147,7 @@ class boardClass():
 	def __init__(self, size):
 		self.newBoard(size)
 
+
 	def newBoard(self, size):
 
 		self.size = size
@@ -158,6 +161,41 @@ class boardClass():
 			tempList2.append(deepcopy(tempList1))
 		
 		self.data = deepcopy(tempList2)
+
+
+
+class buttonClass():
+
+	def __init__(self, buttonType, pos):
+		self.type = buttonType
+
+
+	def drawButton(self, specificPos=None):
+		mm_size_1 = [20, 10]
+		mm_size_2 = [16, 8]
+
+		if specificPos == None:
+			pos = self.pos
+		else:
+			pos = specificPos
+
+		# for easier offset when drawing on screen
+		x = pos[0]
+		y = pos[1]
+
+		if self.type == "mm_1":
+			# background
+			self.drawButton_sub(pos, mm_size_1, "blue")
+			# base
+			self.drawButton_sub(pos, mm_size_2, "cyan")
+
+
+	def drawButton_sub(self, pos, size, color):
+		surface = pygame.Surface(size)
+		surface.fill(color)
+		rect = surface.get_rect(center=pos)
+		screen.blit(surface, rect)
+
 
 
 
