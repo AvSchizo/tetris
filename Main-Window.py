@@ -8,7 +8,6 @@ pygame.init()
 screen = pygame.display.set_mode((800, 800))
 clock = pygame.time.Clock()
 
-default_font = pygame.font.Font(None, 36)
 
 
 
@@ -18,6 +17,7 @@ def findIndex(toFind, list):
 		if list[i] == toFind:
 			return i
 	print("debug (findIndex): fuckall, didn't find shit in this list")
+
 
 
 # toFind is value, function returns index of key in list of keys
@@ -166,16 +166,34 @@ class boardClass():
 
 class buttonClass():
 
-	def __init__(self, buttonType, pos):
+	def __init__(self, buttonType, pos, dud=None):
 		self.type = buttonType
 		self.pos = pos
+		if dud == None:
+			self.active = True
+		else:
+			self.active = False
+
+
+	def drawButton_surf(self, pos, size, color):
+		surface = pygame.Surface(size)
+		surface.fill(color)
+		rect = surface.get_rect(center=pos)
+		screen.blit(surface, rect)
+
+
+	def drawButton_text(self, text, pos, AA=True, size=36, color='black'):
+			font = pygame.font.Font(None, size)
+			surface = font.render(text, AA, color)
+			rect = surface.get_rect(center=pos)
+			screen.blit(surface, rect)
 
 
 	def drawButton(self, specificPos=None):
 		buttonBorderSize = {
 			"mm": 10,
 		}
-		mm_size_1 = [500, 30]
+		mm_size_1 = [80, 50]
 		mm_size_2 = [mm_size_1[0]-buttonBorderSize["mm"], mm_size_1[1]-buttonBorderSize["mm"]]
 
 		if specificPos == None:
@@ -187,27 +205,53 @@ class buttonClass():
 		x = pos[0]
 		y = pos[1]
 
-		if self.type == "mm_1":
-			# background
-			self.drawButton_sub(pos, mm_size_1, "cornflowerblue")
+		if self.type[:2] == "mm":
 			# base
-			self.drawButton_sub(pos, mm_size_2, "cyan")
+			self.drawButton_surf(pos, mm_size_1, "cyan")
+			self.drawButton_surf(pos, mm_size_2, "cornflowerblue")
 
-
-	def drawButton_sub(self, pos, size, color):
-		surface = pygame.Surface(size)
-		surface.fill(color)
-		rect = surface.get_rect(center=pos)
-		screen.blit(surface, rect)
-# debug, delete when done
-button = buttonClass("mm_1", (screen.get_width()/2, screen.get_height()/2))
+			# text
+			if self.type[-1:] == "1":
+				self.drawButton_text("play", pos)
+			if self.type[-1:] == "2":
+				self.drawButton_text("exit", pos)
 
 
 
 
+def createButtonList(gs, ss, scrn):
+	# gs: gameState
+	# ss: subState
+	# scrn: screen
+
+	# buttonList contains sub lists, each sub list contains bool of whether you can select that button at that point, and actual button
+	buttonList = []
+	
+	# gs 10s
+	if floor(gs/10) == 1:
+		buttonList.append([True, buttonClass(buttonType="mm_1", pos=[scrn.get_width()/2, scrn.get_height()/2-100])])
+		buttonList.append([True, buttonClass(buttonType="mm_2", pos=[scrn.get_width()/2, scrn.get_height()/2+100])])
+
+
+	# gs 20s
+	if floor(gs/10) == 2:
+
+		if int(str(gs)[-1]) == 0 and ss == 0:
+			buttonList.append([True, buttonClass(buttonType="dud", pos=[scrn.get_width()/2, scrn.get_height()/2], dud=True)])
+
+
+	return buttonList
+
+
+
+
+###### GAME SETUP ######
+
+# board
 boardSize = [10, 20]
 board = boardClass(boardSize)
 
+# inputs
 totalInputList = []
 
 playerInputs = {
@@ -220,8 +264,10 @@ playerInputs = {
 	"hold": pygame.K_SPACE,
 	"enter": pygame.K_RETURN,
 	"escape": pygame.K_ESCAPE,
+	"f4": pygame.K_F4,
 }
 
+# game
 FPS = 60
 running = True
 TAS = False
@@ -234,6 +280,13 @@ gameState = 10
 # for deeper sub-menus and such
 subState = 0
 
+# buttons
+buttonListIndicator = 0
+buttonList = createButtonList(gs=gameState, ss=subState, scrn=screen)
+
+
+
+###### GAME START ######
 while running:
 	# frame setup
 	frameEvents = pygame.event.get()
@@ -271,9 +324,24 @@ while running:
 
 
 
+	##### MAIN MENU #####
 
-	button.drawButton()
 
+
+
+
+
+
+	##### RENDERING #####
+	
+	if floor(gameState/10) == 1:
+
+		# darkblue
+		# darkslateblue
+		screen.fill("darkslateblue")
+
+		for button in buttonList:
+			button[1].drawButton()
 
 
 
