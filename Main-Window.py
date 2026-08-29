@@ -67,7 +67,7 @@ class pieceClass():
 			self.type = self.takeFromQue()
 		else:
 			self.type = typeInput
-		self.blocks = self.setup_pieceData(board.size)[type]
+		self.blocks = self.setup_pieceData(boardSize)[type]
 
 
 	def setup_pieceData(self, size):
