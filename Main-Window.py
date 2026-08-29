@@ -172,8 +172,11 @@ class buttonClass():
 
 
 	def drawButton(self, specificPos=None):
+		buttonBorderSize = {
+			"mm": 10,
+		}
 		mm_size_1 = [500, 30]
-		mm_size_2 = [16, 8]
+		mm_size_2 = [mm_size_1[0]-buttonBorderSize["mm"], mm_size_1[1]-buttonBorderSize["mm"]]
 
 		if specificPos == None:
 			pos = self.pos
