@@ -229,8 +229,8 @@ def createButtonList(gs, ss, scrn):
 	
 	# gs 10s
 	if floor(gs/10) == 1:
-		buttonList.append([True, buttonClass(buttonType="mm_1", pos=[scrn.get_width()/2, scrn.get_height()/2-100])])
-		buttonList.append([True, buttonClass(buttonType="mm_2", pos=[scrn.get_width()/2, scrn.get_height()/2+100])])
+		buttonList.append([True, buttonClass(buttonType="mm_1", pos=[scrn.get_width()/2, scrn.get_height()/2-40])])
+		buttonList.append([True, buttonClass(buttonType="mm_2", pos=[scrn.get_width()/2, scrn.get_height()/2+40])])
 
 
 	# gs 20s
