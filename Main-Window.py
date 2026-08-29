@@ -5,7 +5,7 @@ from math import floor
 import random
 
 pygame.init()
-screen = pygame.display.set_mode((1280, 720))
+screen = pygame.display.set_mode((800, 800))
 clock = pygame.time.Clock()
 
 default_font = pygame.font.Font(None, 36)
@@ -168,10 +168,11 @@ class buttonClass():
 
 	def __init__(self, buttonType, pos):
 		self.type = buttonType
+		self.pos = pos
 
 
 	def drawButton(self, specificPos=None):
-		mm_size_1 = [20, 10]
+		mm_size_1 = [500, 30]
 		mm_size_2 = [16, 8]
 
 		if specificPos == None:
@@ -185,7 +186,7 @@ class buttonClass():
 
 		if self.type == "mm_1":
 			# background
-			self.drawButton_sub(pos, mm_size_1, "blue")
+			self.drawButton_sub(pos, mm_size_1, "cornflowerblue")
 			# base
 			self.drawButton_sub(pos, mm_size_2, "cyan")
 
@@ -195,6 +196,8 @@ class buttonClass():
 		surface.fill(color)
 		rect = surface.get_rect(center=pos)
 		screen.blit(surface, rect)
+# debug, delete when done
+button = buttonClass("mm_1", (screen.get_width()/2, screen.get_height()/2))
 
 
 
@@ -266,6 +269,7 @@ while running:
 
 
 
+	button.drawButton()
 
 
 
