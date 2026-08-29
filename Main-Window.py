@@ -185,8 +185,10 @@ gameState = 0
 
 while running:
 	frameEvents = pygame.event.get()
-	if pygame.QUIT in frameEvents:
-		exit()
+	for event in frameEvents:
+		if event.type == pygame.QUIT:
+			running = False
+			exit()
 
 	currentFrame += 1
 
@@ -206,7 +208,7 @@ while running:
 					# tempList1[index of event.key's player input dict key] = 1
 					tempList1[findIndex_dict(event.key, playerInputs)] = 1
 				else:
-					print("event key not in inputs")
+					print("debug: event key not in inputs")
 		
 		totalInputList.append(tempList1)
 		
