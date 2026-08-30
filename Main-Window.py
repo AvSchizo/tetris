@@ -7,8 +7,12 @@ import random
 pygame.init()
 screen = pygame.display.set_mode((800, 800))
 clock = pygame.time.Clock()
+pygame.display.set_caption("TETRIS")
 
 
+
+# colors
+darkdarkblue = (0, 0, 10)
 
 
 
@@ -279,7 +283,6 @@ playerInputs = {
 	"hold": pygame.K_SPACE,
 	"enter": pygame.K_RETURN,
 	"escape": pygame.K_ESCAPE,
-	"f4": pygame.K_F4,
 }
 
 # game
@@ -309,6 +312,10 @@ while running:
 		if event.type == pygame.QUIT:
 			running = False
 			exit()
+		if event.type == pygame.KEYDOWN:
+			if event.key == pygame.K_F4:
+				exit()
+
 
 	currentFrame += 1
 
@@ -365,6 +372,14 @@ while running:
 
 
 
+	##### MAIN GAMEPLAY #####
+		if floor(gameState/10) == 2:
+	
+			pass
+
+
+
+
 
 
 	##### RENDERING #####
@@ -374,7 +389,8 @@ while running:
 
 		# darkblue
 		# darkslateblue
-		screen.fill("darkslateblue")
+		# navy
+		screen.fill(darkdarkblue)
 
 		for button in buttonList:
 			button[1].drawButton()
@@ -390,7 +406,9 @@ while running:
 
 	# gameplay
 	if floor(gameState/10) == 2:
-		screen.fill("yellow")
+
+		# indigo
+		screen.fill(darkdarkblue)
 
 
 
