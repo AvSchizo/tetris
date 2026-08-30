@@ -223,12 +223,13 @@ class buttonClass():
 
 
 	def function(self):
+		# extraInstructions, gameState, subState
 
 		if self.type == "mm_1":
-			pass
+			return ([], 20, 0)
 
 		if self.type == "mm_2":
-			exit()
+			return ([exit()], 10, 0)
 
 
 
@@ -339,20 +340,27 @@ while running:
 
 
 	##### MAIN MENU #####
+	if floor(gameState/10) == 1:
 
-	lastBLIpos = buttonListIndicator
+		lastBLIpos = buttonListIndicator
 
-	if inputValues[0] == 1:
-		if buttonListIndicator <= 0:
-			buttonListIndicator = len(buttonList)-1
-		else:
-			buttonListIndicator -= 1
+		if inputValues[0] == 1:
+			if buttonListIndicator <= 0:
+				buttonListIndicator = len(buttonList)-1
+			else:
+				buttonListIndicator -= 1
 
-	if inputValues[1] == 1:
-		if buttonListIndicator >= len(buttonList)-1:
-			buttonListIndicator = 0
-		else:
-			buttonListIndicator += 1
+		if inputValues[1] == 1:
+			if buttonListIndicator >= len(buttonList)-1:
+				buttonListIndicator = 0
+			else:
+				buttonListIndicator += 1
+
+
+		if inputValues[5] == 1:
+			extraInstructions, gameState, subState = buttonList[buttonListIndicator][1].function()
+			for instruction in extraInstructions:
+				instruction
 
 
 
@@ -378,6 +386,11 @@ while running:
 		BLIsize = [50, 40]
 		BLIpos = [(rs, button.pos[1]), (rs-BLIsize[0], button.pos[1]+(BLIsize[1]/2)), (rs-BLIsize[0], button.pos[1]-(BLIsize[1]/2))]
 		pygame.draw.polygon(screen, "red", BLIpos)
+
+
+	# gameplay
+	if floor(gameState/10) == 2:
+		screen.fill("yellow")
 
 
 
