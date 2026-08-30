@@ -174,6 +174,11 @@ class buttonClass():
 		else:
 			self.active = False
 
+		self.mm_size = [80, 50]
+
+		if buttonType[:2] == "mm":
+			self.size = self.mm_size
+
 
 	def drawButton_surf(self, pos, size, color):
 		surface = pygame.Surface(size)
@@ -193,7 +198,7 @@ class buttonClass():
 		buttonBorderSize = {
 			"mm": 10,
 		}
-		mm_size_1 = [80, 50]
+		mm_size_1 = self.mm_size
 		mm_size_2 = [mm_size_1[0]-buttonBorderSize["mm"], mm_size_1[1]-buttonBorderSize["mm"]]
 
 		if specificPos == None:
@@ -215,6 +220,15 @@ class buttonClass():
 				self.drawButton_text("play", pos)
 			if self.type[-1:] == "2":
 				self.drawButton_text("exit", pos)
+
+
+	def function(self):
+
+		if self.type == "mm_1":
+			pass
+
+		if self.type == "mm_2":
+			exit()
 
 
 
@@ -256,9 +270,9 @@ totalInputList = []
 
 playerInputs = {
 	"up": pygame.K_UP,
+	"down": pygame.K_DOWN,
 	"left": pygame.K_LEFT,
 	"right": pygame.K_RIGHT,
-	"down": pygame.K_DOWN,
 	"rotLeft": pygame.K_q,
 	"rotRight": pygame.K_e,
 	"hold": pygame.K_SPACE,
@@ -326,6 +340,19 @@ while running:
 
 	##### MAIN MENU #####
 
+	lastBLIpos = buttonListIndicator
+
+	if inputValues[0] == 1:
+		if buttonListIndicator <= 0:
+			buttonListIndicator = len(buttonList)-1
+		else:
+			buttonListIndicator -= 1
+
+	if inputValues[1] == 1:
+		if buttonListIndicator >= len(buttonList)-1:
+			buttonListIndicator = 0
+		else:
+			buttonListIndicator += 1
 
 
 
@@ -334,6 +361,7 @@ while running:
 
 	##### RENDERING #####
 	
+	# main menu
 	if floor(gameState/10) == 1:
 
 		# darkblue
@@ -342,6 +370,14 @@ while running:
 
 		for button in buttonList:
 			button[1].drawButton()
+
+		## buttonListIndicator
+		button = buttonList[buttonListIndicator][1]
+		# ref spacing
+		rs = button.pos[0] - (button.size[0]/2+50)
+		BLIsize = [50, 40]
+		BLIpos = [(rs, button.pos[1]), (rs-BLIsize[0], button.pos[1]+(BLIsize[1]/2)), (rs-BLIsize[0], button.pos[1]-(BLIsize[1]/2))]
+		pygame.draw.polygon(screen, "red", BLIpos)
 
 
 
